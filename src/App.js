@@ -21,11 +21,6 @@ function App() {
 
   const handleChatQuery = async () => {
     if (!userInputChat) return;
-    
-    console.log("Sending chat query with:", {
-      user_input: userInputChat,
-      page_content: chatContent
-    });
 
     try {
       const response = await axios.post(`${BASE_URL}/query_exa_chat`, {
@@ -33,7 +28,6 @@ function App() {
         page_content: chatContent ? JSON.stringify(chatContent) : "",
       });
       
-      console.log("bot response:", response.data.bot_response)
       setChatHistory([...chatHistory, { user: userInputChat, bot: response.data.bot_response }]);
       setUserInputChat("");
     } catch (error) {

@@ -1,6 +1,6 @@
 import React from 'react';
 
-function SearchInput({ userInput, setUserInput, handleSearch }) {
+function SearchInput({ userInput, setUserInput, handleSearch, setIsChatOpen, setChatHistory, setChatContent }) {
   return (
     <input
       type="text"
@@ -9,6 +9,9 @@ function SearchInput({ userInput, setUserInput, handleSearch }) {
       onKeyDown={(e) => {
         if (e.key === 'Enter') {
           handleSearch();
+          setIsChatOpen(false);
+          setChatHistory([]);
+          setChatContent([]);
         }
       }}
       placeholder="Search HackerNews..."

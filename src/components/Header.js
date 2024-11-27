@@ -11,15 +11,14 @@ function Header({ userInput, setUserInput, handleSearch, setWelcomeMessage, setI
           setChatHistory([]);
           setChatContent([]);
         }} />
-        {/* <div className="title">
-          <span>Exa</span>
-          <span>HackerNews Search</span>
-        </div> */}
       </div>
       <SearchInput 
         userInput={userInput}
         setUserInput={setUserInput}
         handleSearch={handleSearch}
+        setIsChatOpen={setIsChatOpen}
+        setChatHistory={setChatHistory}
+        setChatContent={setChatContent}
       />
     </div>
   );

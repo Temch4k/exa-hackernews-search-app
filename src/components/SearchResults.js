@@ -1,11 +1,12 @@
 import React from 'react';
 
 function SearchResults({ results, handleChatClick }) {
+  console.log("bot results", results.bot)
   return (
     <div className="result-container">
       <div className="chat-entry">
         <h3 className="search-results-title">Search Results for: "{results.user}"</h3> 
-        {results.bot.map((result, index) => (
+        {results.bot.results.map((result, index) => (
           <ul key={index} className="individual-result-list">
             <div className="result-URL-Date-container">
               <a href={result.url}>{result.url}</a>
