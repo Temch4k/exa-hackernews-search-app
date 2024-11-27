@@ -6,8 +6,9 @@ import SearchResults from './components/SearchResults';
 import ChatWindow from './components/ChatWindow';
 import WelcomeMessage from './components/WelcomeMessage';
 import Footer from './components/Footer';
+import OpenAI from "openai";
 
-const BASE_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
+const openai = new OpenAI({dangerouslyAllowBrowser:"true", apiKey:process.env.OPENAI_API_KEY});
 
 function App() {
   const [userInput, setUserInput] = useState("");
@@ -21,20 +22,26 @@ function App() {
 
   const handleChatQuery = async () => {
     if (!userInputChat) return;
-    
-    console.log("Sending chat query with:", {
-      user_input: userInputChat,
-      page_content: chatContent
-    });
 
-    try {
-      const response = await axios.post(`${BASE_URL}/query_exa_chat`, {
-        user_input: userInputChat,
-        page_content: chatContent ? JSON.stringify(chatContent) : "",
-      });
+    const system_prompt = `You are a helpful assistant that answers questions based on 
+        Hacker News webpages that will be provided to you in the Context field. 
+        Use the provided context to answer questions accurately 
+        and concisely. If you're not sure about something, say so. 
+        
+        Context: ${chatContent}`
+
+    try{
+      const response = await openai.chat.completions.create({
+        model:"gpt-3.5-turbo",
+        messages: [{ role: "system", content: system_prompt },
+            {
+                role: "user",
+                content: userInputChat,
+            },
+        ],
+    });
       
-      console.log("bot response:", response.data.bot_response)
-      setChatHistory([...chatHistory, { user: userInputChat, bot: response.data.bot_response }]);
+      setChatHistory([...chatHistory, { user: userInputChat, bot: response.choices[0].message.content }]);
       setUserInputChat("");
     } catch (error) {
       console.error("Error details:", error.response);
@@ -47,10 +54,21 @@ function App() {
 
   const handleContentQuery = async (resultId) => {
     try {
-      const ContentResponse = await axios.post(`${BASE_URL}/query_exa_content`, {
-        user_input: resultId,
-    });
-    setChatContent(ContentResponse);
+      const headers = {
+        'x-api-key': process.env.EXA_API_KEY,
+        'Content-Type': 'application/json'
+      };
+      const body = {
+        ids: [resultId]
+      };
+
+      const response = await axios({
+        method: 'post',
+        url: process.env.EXA_API_URL + '/contents',
+        headers: headers,
+        data: body});
+
+    setChatContent(response.data.results[0].text);
   }catch (error) {
       console.error("Error querying Exa's contents:", error);
     }
@@ -74,8 +92,22 @@ function App() {
       return;
     } 
     try {
-      const response = await axios.post(`${BASE_URL}/query_exa_search`, {
-        user_input: userInput,
+      const headers = {
+        'x-api-key': process.env.EXA_API_KEY,
+        'Content-Type': 'application/json'
+      };
+
+      const body = {
+        query: userInput,
+        numResults: 6,
+        includeDomains: ['news.ycombinator.com/']
+      };
+
+      const response = await axios({
+        method: 'post',
+        url: process.env.EXA_API_URL + '/search',
+        headers: headers,
+        data: body
       });
       const botResponse = response.data.results;
       setResultsFromSearchQuery({ user: userInput, bot: botResponse });
