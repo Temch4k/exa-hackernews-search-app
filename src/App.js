@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import './App.css';
 import Header from './components/Header';
@@ -18,19 +18,23 @@ function App() {
   const [chatHistory, setChatHistory] = useState([]);
   const [chatContent, setChatContent] = useState("");
 
+
   const handleChatQuery = async () => {
     if (!userInputChat) return;
     
+    console.log("Sending chat query with:", {
+      user_input: userInputChat,
+      page_content: chatContent
+    });
+
     try {
       const response = await axios.post(`${BASE_URL}/query_exa_chat`, {
         user_input: userInputChat,
         page_content: chatContent ? JSON.stringify(chatContent) : "",
       });
       
-      setChatHistory([...chatHistory, { 
-        user: userInputChat, 
-        bot: response.data.bot_response 
-      }]);
+      console.log("bot response:", response.data.bot_response)
+      setChatHistory([...chatHistory, { user: userInputChat, bot: response.data.bot_response }]);
       setUserInputChat("");
     } catch (error) {
       console.error("Error details:", error.response);
@@ -43,14 +47,14 @@ function App() {
 
   const handleContentQuery = async (resultId) => {
     try {
-      const contentResponse = await axios.post(`${BASE_URL}/query_exa_content`, {
+      const ContentResponse = await axios.post(`${BASE_URL}/query_exa_content`, {
         user_input: resultId,
-      });
-      setChatContent(contentResponse);
-    } catch (error) {
+    });
+    setChatContent(ContentResponse);
+  }catch (error) {
       console.error("Error querying Exa's contents:", error);
     }
-  };
+  }
 
   const handleChatClick = async (resultId) => {
     if (!isChatOpen) {
@@ -63,28 +67,30 @@ function App() {
   };
 
   const handleSearch = async () => {
-    if (!userInput) {
+    if (!userInput){
       setChatHistory([]);
       setWelcomeMessage(true);
-      setIsChatOpen(false);
+      setIsChatOpen(false)
       return;
-    }
-
+    } 
     try {
       const response = await axios.post(`${BASE_URL}/query_exa_search`, {
         user_input: userInput,
       });
-      setResultsFromSearchQuery({ 
-        user: userInput, 
-        bot: response.data.results 
-      });
+      const botResponse = response.data.results;
+      setResultsFromSearchQuery({ user: userInput, bot: botResponse });
       setUserInput("");
     } catch (error) {
       console.error("Error querying Exa:", error);
+      console.log(resultsFromSearchQuery)
     } finally {
       setWelcomeMessage(false);
     }
   };
+
+  useEffect(() => {
+    console.log("isChatOpen changed to:", isChatOpen);
+  }, [isChatOpen]);
 
   return (
     <div className="container">
@@ -114,7 +120,7 @@ function App() {
           )}
         </div>
       )}
-      <Footer />
+      <Footer/>
     </div>
   );
 }
