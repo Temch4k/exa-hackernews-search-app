@@ -25,7 +25,7 @@ function App() {
     });
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/query_exa_chat", {
+      const response = await axios.post("http://localhost:8080/query_exa_chat", {
         user_input: userInputChat,
         page_content: chatContent ? JSON.stringify(chatContent) : "",
       });
@@ -44,7 +44,7 @@ function App() {
 
   const handleContentQuery = async (resultId) => {
     try {
-      const ContentResponse = await axios.post("http://127.0.0.1:8000/query_exa_content", {
+      const ContentResponse = await axios.post("http://localhost:8080/query_exa_content", {
         user_input: resultId,
     });
     setChatContent(ContentResponse);
@@ -71,7 +71,7 @@ function App() {
       return;
     } 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/query_exa_search", {
+      const response = await axios.post("http://localhost:8080/query_exa_search", {
         user_input: userInput,
       });
       const botResponse = response.data.results;
