@@ -1,38 +1,236 @@
-.App {
+body {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  background-color: #f6f6ef;
+  color: #333;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+/* Header */
+.header {
+  width: 100vw;  
+  background-color: #ff6600;
+  color: #fff;
+  box-sizing: border-box; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 1px;
+  border-radius: 5px;
+  z-index: 1000;
+}
+
+.header .logo {
+  font-weight: bold;
+  font-size: 16px;
+  color: #ff6600;
+  padding: 2px 6px;
+  border-radius: 2px;
+  margin-right: 4px;
+}
+
+.title {
+  font-size: 16px;
+  margin: 0;  /* Remove default margin */
+  padding: 0;  /* Remove default padding */
+}
+
+.logo-container {
+  position: absolute;
+  left: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.input-field {
+  width: 50%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin: 0 10px;
+  position: relative;
+  z-index: 1001;
+
+  background-image: url(https://cdn2.hubspot.net/hubfs/4004166/bioticresearch_website_assets/images/search_icon.png);
+  background-repeat: no-repeat;
+  background-position: left center;
+  padding-left: 40px;
+}
+
+.container {
+  padding: 40px;
+  max-width: 800px;
+  margin: 0px auto;  
+  box-sizing: border-box;
+}
+
+.welcome-message {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* Main */
+.main-container {
   display: flex;
-  flex-direction: column;
+  gap: 20px;
+  transition: all 0.3s ease;
+  align-items: flex-start;
+}
+
+.result-container {
+  /* border: 1px solid #ccc; */
+  padding: 1px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+
+.individual-result-list {
+  list-style-type: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.search-results-title {
+  margin-bottom: 10px;
+  color: gray;
+}
+
+a:link{
+  color: #959a9e;
+  text-decoration: none;
+}
+a:visited {
+  color: #959a9e;
+  text-decoration: none;
+}
+
+.result-title {
+  font-size: 17px;
+  color: #ff6600;
+}
+
+
+.result-URL-Date-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.result-date {
+  color: #666;
+  font-size: 0.9em;
+}
+
+.title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.chat-icon {
+  flex-shrink: 0;  
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.result-title {
+  flex-grow: 1;
+  cursor: pointer;
+}
+
+.result-container {
+  flex: 1;
+  transition: all 0.3s ease;
+}
+
+.main-container.with-chat .result-container {
+  flex: 0 0 80%; 
+}
+
+/* Chat */
+.chat-container {
+  flex: 0 0 38%;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  height: fit-content;
+  position: sticky;
+  top: 100px;
+}
+
+.chat {
+  background-color: #f6f6ef;
+  height: 100%;
+  padding: 20px;
+}
+
+.chat-content {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+.chat-title {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: gray;
+}
+
+.chat-history {
+  border: 1px solid #e5e7eb;
+  padding: 15px;
+  margin-bottom: 20px;
+  height: 300px;
+  overflow-y: auto;
+}
+
+.chat-input-container {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.chat-input {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 14px;
+}
+.chat-input:focus {
+  border-color: #ff6600;
+}
+
+/* Footer */
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  gap: 10px;  
+  padding: 10px;
 }
 
-.App-link {
-  color: #61dafb;
+.footer span {
+  font-size: 14px; 
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.exa-logo {
+  width: 60px; 
+  height: auto;
+  margin-top: 7px;
+}
+.logo-button {
+  cursor: pointer;
 }
