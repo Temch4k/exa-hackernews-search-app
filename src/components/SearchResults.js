@@ -1,7 +1,6 @@
 import React from 'react';
 
 function SearchResults({ results, handleChatClick }) {
-  console.log("bot results", results.bot)
   return (
     <div className="result-container">
       <div className="chat-entry">
