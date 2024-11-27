@@ -8,7 +8,7 @@ import WelcomeMessage from './components/WelcomeMessage';
 import Footer from './components/Footer';
 import OpenAI from "openai";
 
-const openai = new OpenAI({dangerouslyAllowBrowser:"true", apiKey:process.env.OPENAI_API_KEY});
+const openai = new OpenAI({dangerouslyAllowBrowser:"true", apiKey: process.env.REACT_APP_OPENAI_API_KEY});
 
 function App() {
   const [userInput, setUserInput] = useState("");
@@ -55,7 +55,7 @@ function App() {
   const handleContentQuery = async (resultId) => {
     try {
       const headers = {
-        'x-api-key': process.env.EXA_API_KEY,
+        'x-api-key': process.env.REACT_APP_EXA_API_KEY,
         'Content-Type': 'application/json'
       };
       const body = {
@@ -64,7 +64,7 @@ function App() {
 
       const response = await axios({
         method: 'post',
-        url: process.env.EXA_API_URL + '/contents',
+        url: process.env.REACT_APP_EXA_API_URL + '/contents',
         headers: headers,
         data: body});
 
@@ -93,7 +93,7 @@ function App() {
     } 
     try {
       const headers = {
-        'x-api-key': process.env.EXA_API_KEY,
+        'x-api-key': process.env.REACT_APP_EXA_API_KEY,
         'Content-Type': 'application/json'
       };
 
@@ -105,7 +105,7 @@ function App() {
 
       const response = await axios({
         method: 'post',
-        url: process.env.EXA_API_URL + '/search',
+        url: process.env.REACT_APP_EXA_API_URL + '/search',
         headers: headers,
         data: body
       });
